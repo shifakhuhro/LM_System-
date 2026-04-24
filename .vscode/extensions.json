@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "ms-python.pylance",
+    "ms-python.debugpy",
+    "wholroyd.jinja",
+    "mikestead.dotenv",
+    "batisteo.vscode-django"
+  ]
+}
