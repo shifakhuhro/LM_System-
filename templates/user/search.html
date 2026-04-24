@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Search Books – LibraryMS{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-search text-primary"></i> Search Books</h2>
+
+<!-- Search form -->
+<div class="card border-0 shadow-sm mb-4">
+  <div class="card-body">
+    <form method="GET" action="{{ url_for('search_books') }}" class="row g-3 align-items-end">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Search</label>
+        <input type="text" class="form-control" name="q" value="{{ query }}"
+               placeholder="Title, author, or ISBN…" />
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Category</label>
+        <select class="form-select" name="category">
+          <option value="">All Categories</option>
+          {% for cat in categories %}
+            <option value="{{ cat }}" {% if cat == category %}selected{% endif %}>{{ cat }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">
+          <i class="bi bi-search"></i> Search
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Results -->
+{% if books %}
+<p class="text-muted small mb-3">{{ books|length }} result(s) found.</p>
+<div class="row g-3">
+  {% for book in books %}
+  <div class="col-md-4">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body d-flex flex-column">
+        <div class="mb-2">
+          {% if book.category %}
+            <span class="badge bg-primary-subtle text-primary-emphasis mb-1">{{ book.category }}</span>
+          {% endif %}
+        </div>
+        <h5 class="card-title fw-bold mb-1">{{ book.title }}</h5>
+        <p class="text-muted small mb-1"><i class="bi bi-person"></i> {{ book.author }}</p>
+        {% if book.isbn %}
+          <p class="text-muted small mb-2"><i class="bi bi-upc-scan"></i> ISBN: {{ book.isbn }}</p>
+        {% endif %}
+        <div class="mt-auto">
+          {% if book.available_copies > 0 %}
+            <span class="badge bg-success-subtle text-success-emphasis me-2">
+              <i class="bi bi-check-circle"></i> {{ book.available_copies }} available
+            </span>
+            <form method="POST" action="{{ url_for('borrow_book', book_id=book.id) }}"
+                  class="d-inline" onsubmit="return confirm('Borrow this book?')">
+              <button type="submit" class="btn btn-sm btn-primary">
+                <i class="bi bi-bookmark-plus"></i> Borrow
+              </button>
+            </form>
+          {% else %}
+            <span class="badge bg-secondary">
+              <i class="bi bi-x-circle"></i> Not available
+            </span>
+          {% endif %}
+        </div>
+      </div>
+      <div class="card-footer bg-transparent border-0 text-muted small">
+        {{ book.total_copies }} total cop{{ 'y' if book.total_copies == 1 else 'ies' }}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% elif query or category %}
+<div class="text-center py-5 text-muted">
+  <i class="bi bi-search display-4"></i>
+  <p class="mt-3">No books found matching your search.</p>
+</div>
+{% else %}
+<div class="text-center py-5 text-muted">
+  <i class="bi bi-journals display-4"></i>
+  <p class="mt-3">Enter a search term or browse by category above.</p>
+</div>
+{% endif %}
+{% endblock %}

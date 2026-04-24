@@ -1,0 +1,100 @@
+/* Library Management System – Custom Styles */
+
+:root {
+  --lms-primary: #0d6efd;
+  --lms-sidebar-bg: #1a2035;
+}
+
+/* General */
+body {
+  background-color: #f4f6fb;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* Navbar */
+.navbar-brand {
+  font-size: 1.3rem;
+  letter-spacing: 0.3px;
+}
+
+/* Cards */
+.card {
+  border-radius: 0.75rem;
+  transition: box-shadow 0.2s;
+}
+.card:hover {
+  box-shadow: 0 4px 18px rgba(0,0,0,0.09) !important;
+}
+
+/* Tables */
+.table thead th {
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6c757d;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(13, 110, 253, 0.04);
+}
+
+/* Stats card numbers */
+.display-5, .display-6 {
+  font-weight: 700;
+}
+
+/* Badges */
+.badge {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Buttons */
+.btn {
+  border-radius: 0.5rem;
+}
+
+/* Login / Register forms */
+.card-body .input-group .form-control {
+  border-left: none;
+}
+.card-body .input-group .input-group-text {
+  background-color: #f8f9fa;
+  border-right: none;
+  color: #6c757d;
+}
+
+/* Footer */
+footer {
+  font-size: 0.82rem;
+}
+
+/* Overdue row highlight */
+.table-danger td {
+  color: #842029;
+}
+
+/* Nav tabs */
+.nav-tabs .nav-link {
+  border-radius: 0.5rem 0.5rem 0 0;
+  font-weight: 500;
+}
+.nav-tabs .nav-link.active {
+  background-color: #fff;
+  border-bottom-color: #fff;
+}
+
+/* Hero section on login */
+.login-hero {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+  color: white;
+  border-radius: 0.75rem;
+  padding: 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .display-5 { font-size: 1.8rem; }
+  .display-6 { font-size: 1.5rem; }
+}

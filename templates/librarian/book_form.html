@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if book else 'Add' }} Book – LibraryMS{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-white fw-semibold">
+        <i class="bi bi-{{ 'pencil' if book else 'plus-lg' }} text-primary"></i>
+        {{ 'Edit Book' if book else 'Add New Book' }}
+      </div>
+      <div class="card-body p-4">
+        <form method="POST">
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="title">Title <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="title" name="title"
+                   value="{{ book.title if book else '' }}" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="author">Author <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="author" name="author"
+                   value="{{ book.author if book else '' }}" required />
+          </div>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" for="isbn">ISBN</label>
+              <input type="text" class="form-control" id="isbn" name="isbn"
+                     value="{{ book.isbn if book and book.isbn else '' }}"
+                     placeholder="978-…" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold" for="category">Category</label>
+              <input type="text" class="form-control" id="category" name="category"
+                     value="{{ book.category if book and book.category else '' }}"
+                     placeholder="e.g. Fiction, Science…" />
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="form-label fw-semibold" for="copies">Total Copies</label>
+            <input type="number" class="form-control" id="copies" name="copies"
+                   value="{{ book.total_copies if book else 1 }}" min="1" required />
+            {% if book %}
+            <div class="form-text text-muted">
+              Currently {{ book.total_copies - book.available_copies }} cop{{ 'y' if (book.total_copies - book.available_copies) == 1 else 'ies' }} borrowed.
+              Available copies will be recalculated automatically.
+            </div>
+            {% endif %}
+          </div>
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary px-4">
+              <i class="bi bi-check-lg me-1"></i> {{ 'Update' if book else 'Add Book' }}
+            </button>
+            <a href="{{ url_for('librarian_books') }}" class="btn btn-outline-secondary px-4">
+              Cancel
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
