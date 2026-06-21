@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}My Fines – LibraryMS{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-receipt text-primary"></i> My Fines</h2>
+
+{% if total_unpaid > 0 %}
+<div class="alert alert-danger d-flex align-items-center">
+  <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+  <div>
+    You have <strong>${{ "%.2f"|format(total_unpaid) }}</strong> in unpaid fines.
+    Please visit the library to settle your account.
+  </div>
+</div>
+{% endif %}
+
+{% if fines %}
+<div class="card border-0 shadow-sm">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Book</th>
+            <th>Borrowed</th>
+            <th>Due Date</th>
+            <th>Returned</th>
+            <th>Fine</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for f in fines %}
+          <tr>
+            <td class="fw-semibold">{{ f.title }}</td>
+            <td>{{ f.borrow_date }}</td>
+            <td>{{ f.due_date }}</td>
+            <td>{{ f.return_date or '—' }}</td>
+            <td class="{{ 'text-danger fw-semibold' if not f.fine_paid else '' }}">
+              ${{ "%.2f"|format(f.fine_amount) }}
+            </td>
+            <td>
+              {% if f.fine_paid %}
+                <span class="badge bg-success"><i class="bi bi-check-circle"></i> Paid</span>
+              {% else %}
+                <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Unpaid</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot class="table-light">
+          <tr>
+            <td colspan="4" class="fw-semibold text-end">Total Unpaid:</td>
+            <td colspan="2" class="fw-bold text-danger">${{ "%.2f"|format(total_unpaid) }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="text-center py-5 text-muted">
+  <i class="bi bi-emoji-smile display-4 text-success"></i>
+  <p class="mt-3 fs-5">Great news! You have no fines.</p>
+</div>
+{% endif %}
+{% endblock %}
